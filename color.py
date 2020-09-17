@@ -30,6 +30,10 @@ class RGBColor():
     def __repr__(self):
         return f"<RGB {self.R}, {self.G}, {self.B}>"
 
+    @property
+    def tuple(self):
+        return (self.R, self.G, self.B)
+
     def to_YIQ(self):
         Y = 0.299 * self.R + 0.587 * self.G + 0.114 * self.B
         I = 0.596 * self.R - 0.275 * self.G - 0.321 * self.B
@@ -41,7 +45,10 @@ class RGBColor():
         min_ = min(self.R, self.G, self.B)
         diff = max_ - min_
 
-        S = (max_ - min_) / max_
+        if max_ == 0:
+            S = 0
+        else:
+            S = (max_ - min_) / max_
         V = max_ / 255
 
         if diff == 0:
@@ -65,6 +72,11 @@ class RGBColor():
             H *= 360
 
         return HSVColor(H, S, V)
+
+
+WHITE = RGBColor(255, 255, 255)
+BLACK = RGBColor(0, 0, 0)
+
 
 if __name__ == "__main__":
     color = RGBColor(151, 194, 212)
