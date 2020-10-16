@@ -20,8 +20,6 @@ progress_bar = ProgressBar(img.width * img.height,
 
 for x in range(img.width):
     for y in range(img.height):
-        color = img.getpixel((x, y))
-
         rgb = RGBColor(*img.getpixel((x, y)))
         hsv = rgb.to_HSV()
 

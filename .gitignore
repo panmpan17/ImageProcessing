@@ -5,3 +5,5 @@ __pycache__/
 [Bb]uilds/
 .vscode/
 result/
+test*.jpg
+test*.png

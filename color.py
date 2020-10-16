@@ -22,10 +22,11 @@ class HSVColor():
 
 
 class RGBColor():
-    def __init__(self, r, g, b):
+    def __init__(self, r, g, b, a=1):
         self.R = r
         self.G = g
         self.B = b
+        self.A = 1
 
     def __repr__(self):
         return f"<RGB {self.R}, {self.G}, {self.B}>"
