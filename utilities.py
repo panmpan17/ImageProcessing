@@ -21,6 +21,7 @@ class ProgressBar:
         self.length = length
         self.fill = fill
         self.printEnd = printEnd
+        print()
     
     def increment(self):
         self.progress += 1

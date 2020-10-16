@@ -57,7 +57,7 @@ class AbstractImageProcessor:
 
     def save(self, filename=None):
         if filename is None:
-            self.new_img.save(self.save_prefix + self.file_name)
+            self.new_img.save("result/" + self.save_prefix + self.file_name)
         else:
             self.new_img.save(filename)
 
@@ -124,7 +124,7 @@ class Laplacian(AbstractImageProcessor):
 
     @property
     def save_prefix(self):
-        return "result-laplacian-"
+        return "laplacian-"
 
 class MarrHildreth(AbstractImageProcessor):
     def color_process(self, color_tuple):
@@ -132,6 +132,10 @@ class MarrHildreth(AbstractImageProcessor):
     
     def start(self):
         temp_data = [[0 for i in range(self.height)] for j in range(self.width)]
+
+        progress_bar = ProgressBar(
+            (self.img.width - 4) + 2,
+            "Progress: ", "Completed", length=50)
 
         for x in range(2, self.width - 2):
             for y in range(2, self.height - 2):
@@ -142,6 +146,8 @@ class MarrHildreth(AbstractImageProcessor):
                     - self[x + 1, y + 1] - self[x, y - 2]\
                     - self[x, y + 2] - self[x - 2, y]\
                     - self[x + 2, y]
+                
+            progress_bar.increment()
 
         temp_sum = 0
         pixel_counter = 0
@@ -149,6 +155,8 @@ class MarrHildreth(AbstractImageProcessor):
             for y in range(1, self.height - 1):
                 pixel_counter += 1
                 temp_sum += math.fabs(temp_data[x][y])
+        
+        progress_bar.increment()
         
         TH = 2 * (temp_sum / pixel_counter)
 
@@ -175,10 +183,12 @@ class MarrHildreth(AbstractImageProcessor):
 
                 else:
                     self.new_img.putpixel((x + 1, y + 1), WHITE.tuple)
+            
+        progress_bar.increment()
 
     @property
     def save_prefix(self):
-        return "result-marr-"
+        return "marr-"
 
 
 if __name__ == "__main__":
